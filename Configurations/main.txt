@@ -1,0 +1,7 @@
+Local repository?C:\Users\ashee\OneDrive\Рабочий стол\Учеба (5 сем)\ООП\Repository1
+SingleStorageAlgorithm
+FileLogger
+C:\Users\ashee\OneDrive\Рабочий стол\Учеба (5 сем)\ООП\logs.txt
+binsearch=C:\Users\ashee\OneDrive\Рабочий стол\Учеба (5 сем)\ООП\binsearch.in?garland=C:\Users\ashee\OneDrive\Рабочий стол\Учеба (5 сем)\ООП\garland.in?isheap=C:\Users\ashee\OneDrive\Рабочий стол\Учеба (5 сем)\ООП\isheap.in?
+1
+first!1638008102648!binsearch=C:\Users\ashee\OneDrive\Рабочий стол\Учеба (5 сем)\ООП\binsearch.in?garland=C:\Users\ashee\OneDrive\Рабочий стол\Учеба (5 сем)\ООП\garland.in?isheap=C:\Users\ashee\OneDrive\Рабочий стол\Учеба (5 сем)\ООП\isheap.in?

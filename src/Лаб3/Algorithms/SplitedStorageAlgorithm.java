@@ -1,17 +1,20 @@
 package Лаб3.Algorithms;
 
 import Лаб3.Entities.FileDesc;
+import Лаб3.Entities.RestorePoint;
+import Лаб3.Exception.BackupException;
 import Лаб3.Repository.Repository;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 public class SplitedStorageAlgorithm extends Algorithm {
@@ -33,6 +36,56 @@ public class SplitedStorageAlgorithm extends Algorithm {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void extractFilesToOriginalLocation(RestorePoint restorePoint, Repository repository) throws BackupException {
+        List<String> filenames = restorePoint.getJobObjects().stream()
+                .map(fileDesc -> fileDesc.getName()+"_"+restorePoint.getName()+".zip")
+                .collect(Collectors.toList());
+        List<File> files = repository.extractFiles(filenames);
+        try {
+            for (File file : files) {
+                ZipFile zip = new ZipFile(file);
+                Enumeration entries = zip.entries();
+
+                extractToOrigin(restorePoint, zip, entries);
+
+                zip.close();
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+
+
+    @Override
+    public void extractFilesToDifferentLocation(RestorePoint restorePoint, Repository repository, Path pathToLocation) throws BackupException {
+        List<String> filenames = restorePoint.getJobObjects().stream()
+                .map(fileDesc -> fileDesc.getName()+"_"+restorePoint.getName()+".zip")
+                .collect(Collectors.toList());
+        List<File> files = repository.extractFiles(filenames);
+        try {
+            for (File file : files) {
+                ZipFile zip = new ZipFile(file);
+                Enumeration entries = zip.entries();
+
+                ZipEntry entry = (ZipEntry) entries.nextElement();
+                write(zip.getInputStream(entry),
+                        new BufferedOutputStream(new FileOutputStream(
+                                new File(String.valueOf(pathToLocation), entry.getName()))));
+
+                zip.close();
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public String getType() {
+        return "SplitedStorageAlgorithm";
     }
 
 }
