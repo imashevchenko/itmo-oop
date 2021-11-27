@@ -1,6 +1,4 @@
-package Лаб3.Loggers;
-
-import java.io.IOException;
+package Лаб35.Loggers;
 
 public class ConsoleLogger implements Logger {
     @Override

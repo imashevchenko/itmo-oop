@@ -1,4 +1,4 @@
-package Лаб3.Entities;
+package Лаб35.Entities;
 
 import java.nio.file.Path;
 import java.util.Objects;

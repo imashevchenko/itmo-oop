@@ -1,4 +1,4 @@
-package Лаб3.Loggers;
+package Лаб35.Loggers;
 
 import java.io.*;
 import java.nio.file.Path;

@@ -1,14 +1,13 @@
-package Лаб3.Tests;
+package Лаб35.Tests;
 
-import Лаб3.Algorithms.SingleStorageAlgorithm;
-import Лаб3.Algorithms.SplitedStorageAlgorithm;
-import Лаб3.Entities.BackUpJob;
-import Лаб3.Entities.FileDesc;
-import Лаб3.Exception.BackupException;
-import Лаб3.Loggers.ConsoleLogger;
-import Лаб3.Repository.LocalRepository;
+import Лаб35.Algorithms.SingleStorageAlgorithm;
+import Лаб35.Algorithms.SplitedStorageAlgorithm;
+import Лаб35.Entities.BackUpJob;
+import Лаб35.Entities.FileDesc;
+import Лаб35.Exception.BackupException;
+import Лаб35.Loggers.ConsoleLogger;
+import Лаб35.Repository.LocalRepository;
 
-import java.io.IOException;
 import java.nio.file.Path;
 
 

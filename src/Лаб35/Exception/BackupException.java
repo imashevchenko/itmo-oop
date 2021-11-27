@@ -1,4 +1,4 @@
-package Лаб3.Exception;
+package Лаб35.Exception;
 
 public class BackupException extends Exception {
     public BackupException(String message) {

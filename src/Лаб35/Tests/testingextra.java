@@ -1,16 +1,11 @@
-package Лаб3.Tests;
+package Лаб35.Tests;
 
-import Лаб3.Algorithms.SingleStorageAlgorithm;
-import Лаб3.Entities.BackUpJob;
-import Лаб3.Entities.FileDesc;
-import Лаб3.Entities.RestorePoint;
-import Лаб3.Exception.BackupException;
-import Лаб3.Loggers.FileLogger;
-import Лаб3.Repository.LocalRepository;
+import Лаб35.Entities.BackUpJob;
+import Лаб35.Entities.RestorePoint;
+import Лаб35.Exception.BackupException;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

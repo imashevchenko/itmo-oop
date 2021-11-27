@@ -1,17 +1,16 @@
-package Лаб3.Entities;
+package Лаб35.Entities;
 
-import Лаб3.Algorithms.Algorithm;
-import Лаб3.Algorithms.SingleStorageAlgorithm;
-import Лаб3.Algorithms.SplitedStorageAlgorithm;
-import Лаб3.Exception.BackupException;
-import Лаб3.Loggers.ConsoleLogger;
-import Лаб3.Loggers.FileLogger;
-import Лаб3.Loggers.Logger;
-import Лаб3.Repository.LocalRepository;
-import Лаб3.Repository.Repository;
+import Лаб35.Algorithms.Algorithm;
+import Лаб35.Algorithms.SingleStorageAlgorithm;
+import Лаб35.Algorithms.SplitedStorageAlgorithm;
+import Лаб35.Exception.BackupException;
+import Лаб35.Loggers.ConsoleLogger;
+import Лаб35.Loggers.FileLogger;
+import Лаб35.Loggers.Logger;
+import Лаб35.Repository.LocalRepository;
+import Лаб35.Repository.Repository;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
