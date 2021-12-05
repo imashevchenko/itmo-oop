@@ -63,3 +63,5 @@ Created restore point: second
 Created restore point: third
 Created restore point: second
 Created restore point: third
+Created restore point: second
+Created restore point: third
