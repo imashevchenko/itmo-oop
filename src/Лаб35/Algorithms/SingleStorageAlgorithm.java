@@ -7,6 +7,7 @@ import Лаб35.Repository.Repository;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -64,7 +65,13 @@ public class SingleStorageAlgorithm extends Algorithm {
         }
     }
 
-
+    public void merge(List<RestorePoint> restorePointsForDelete, List<RestorePoint> restorePoints, Repository repository){
+        List<String> fileNames = new ArrayList<>();
+        for (RestorePoint restorePoint : restorePointsForDelete){
+            fileNames.add("backup_"+restorePoint.getName()+".zip");
+        }
+        repository.delete(fileNames);
+    }
 
     @Override
     public String getType() {

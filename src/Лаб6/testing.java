@@ -1,9 +1,9 @@
 package Лаб6;
 
-import Лаб6.BLL.Employee;
 import Лаб6.BLL.EmployeeManagement;
 import Лаб6.BLL.ReportManagement;
 import Лаб6.BLL.TaskManagement;
+import Лаб6.Common.EmployeeDTO;
 import Лаб6.DAL.LocalRepository;
 
 import java.nio.file.Path;
@@ -17,9 +17,9 @@ public class testing {
                 Path.of("C:\\Users\\ashee\\OneDrive\\Рабочий стол\\Учеба (5 сем)\\ООП\\Lab6Repository\\reports.txt"),
                 Path.of("C:\\Users\\ashee\\OneDrive\\Рабочий стол\\Учеба (5 сем)\\ООП\\Lab6Repository\\SprintReport"),
                 Path.of("C:\\Users\\ashee\\OneDrive\\Рабочий стол\\Учеба (5 сем)\\ООП\\Lab6Repository\\reportconfig.json"));
-        Employee employee1 = new Employee("Arseniy Shevchenko");
-        Employee employee2 = new Employee("Arseniy Vityazev");
-        Employee employee3 = new Employee("Dmitriy Kukulidi");
+        EmployeeDTO employee1 = new EmployeeDTO("Arseniy Shevchenko");
+        EmployeeDTO employee2 = new EmployeeDTO("Arseniy Vityazev");
+        EmployeeDTO employee3 = new EmployeeDTO("Dmitriy Kukulidi");
         TaskManagement taskManagement = new TaskManagement(repository);
         EmployeeManagement employeeManagement = new EmployeeManagement(repository);
         employeeManagement.addChief(employee1);
@@ -39,7 +39,7 @@ public class testing {
         reportManagement2.createReport();
 
         ReportManagement reportManagement0 = new ReportManagement(employee1, taskManagement, repository);
-        reportManagement0.createSprintReport();
+
 
     }
 

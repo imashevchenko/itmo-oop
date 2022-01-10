@@ -22,7 +22,7 @@ public class testing {
             System.out.println("Transaction test with exception (not verified client) : [OK]");
         }
 
-        imperial.cancelTransaction(new Transaction(imperial.getDebitAccounts(me).iterator().next().getID(), 5000, TransactionType.WITHDRAWAL));
+        imperial.cancelTransaction(new WithdrawalTransaction(imperial.getDebitAccounts(me).iterator().next(), 5000));
         if (imperial.getDebitAccounts(me).iterator().next().getBalance() == 60000)
             System.out.println("Transaction cancel test : [OK]");
 

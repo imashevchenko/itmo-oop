@@ -1,8 +1,6 @@
 package Лаб6.DAL;
 
-import Лаб6.BLL.TaskBLL;
 import Лаб6.Diff;
-import Лаб6.BLL.Employee;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,11 +11,11 @@ public class TaskDAL {
     String comment;
     Date date;
     String status;
-    Employee employee;
+    EmployeeDAL employee;
 
     private ArrayList<Diff> changes;
 
-    public TaskDAL(int id, String name, String comment, String status, Employee employee) {
+    public TaskDAL(int id, String name, String comment, String status, EmployeeDAL employee) {
         this.id = id;
         this.name = name;
         this.comment = comment;
@@ -25,16 +23,6 @@ public class TaskDAL {
         this.status = status;
         this.changes = new ArrayList<>();
         this.employee = employee;
-    }
-
-    public TaskDAL(TaskBLL taskBLL){
-        this.id = taskBLL.getId();
-        this.name = taskBLL.getName();
-        this.comment = taskBLL.getComment();
-        this.date = taskBLL.getDate();
-        this.status = taskBLL.getStatus();
-        this.changes = taskBLL.getChanges();
-        this.employee = taskBLL.getEmployee();
     }
 
 
@@ -88,7 +76,7 @@ public class TaskDAL {
         this.changes.add(diff);
     }
 
-    public Employee getEmployee() {
+    public EmployeeDAL getEmployee() {
         return employee;
     }
 }

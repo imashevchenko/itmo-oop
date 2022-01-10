@@ -114,48 +114,32 @@ public class Bank {
         Account acc2 = accounts.stream().filter(account -> account.getID() == id2).findFirst().orElse(null);
         if (acc1 == null || acc2 == null)
             throw new BankException("No such accounts");
-        acc1.transfer(amount);
-        acc2.replenish(amount);
-        transactionSet.add(new Transaction(id1, id2, amount));
+        Transaction transaction = new TransferTransaction(acc1, acc2, amount);
+        transaction.conduct();
+        transactionSet.add(transaction);
     }
 
     public void withdraw(int accountId, double amount) throws BankException {
         Account acc = accounts.stream().filter(account -> account.getID() == accountId).findFirst().orElse(null);
         if (acc == null)
             throw new BankException("No such account");
-        acc.withdraw(amount);
-        transactionSet.add(new Transaction(accountId, amount, TransactionType.WITHDRAWAL));
+        Transaction transaction = new WithdrawalTransaction(acc, amount);
+        transaction.conduct();
+        transactionSet.add(transaction);
     }
 
     public void replenish(int accountId, double amount) throws BankException {
         Account acc = accounts.stream().filter(account -> account.getID() == accountId).findFirst().orElse(null);
         if (acc == null)
             throw new BankException("No such account");
-        acc.replenish(amount);
-        transactionSet.add(new Transaction(accountId, amount, TransactionType.REPLENISHMENT));
+        Transaction transaction = new ReplenishTransaction(acc, amount);
+        transaction.conduct();
+        transactionSet.add(transaction);
     }
 
     public void cancelTransaction(Transaction transaction) throws BankException {
+        transaction.cancel();
         transactionSet.remove(transaction);
-
-        if (transaction.type == TransactionType.WITHDRAWAL) {
-            Account acc = accounts.stream().filter(account -> account.getID() == transaction.id1).findFirst().orElse(null);
-            if (acc == null)
-                throw new BankException("No such transaction");
-            acc.sum += transaction.sum;
-        } else if (transaction.type == TransactionType.REPLENISHMENT) {
-            Account acc = accounts.stream().filter(account -> account.getID() == transaction.id1).findFirst().orElse(null);
-            if (acc == null)
-                throw new BankException("No such transaction");
-            acc.sum -= transaction.sum;
-        } else {
-            Account acc1 = accounts.stream().filter(account -> account.getID() == transaction.id1).findFirst().orElse(null);
-            Account acc2 = accounts.stream().filter(account -> account.getID() == transaction.id2).findFirst().orElse(null);
-            if (acc1 == null || acc2 == null)
-                throw new BankException("No such transaction");
-            acc1.sum += transaction.sum;
-            acc2.sum -= transaction.sum;
-        }
     }
 
 

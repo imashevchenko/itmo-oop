@@ -1,5 +1,7 @@
-package Лаб6.BLL;
+package Лаб6.Common;
 
+import Лаб6.BLL.EmployeeManagement;
+import Лаб6.Common.EmployeeDTO;
 import Лаб6.DAL.TaskDAL;
 import Лаб6.Diff;
 import Лаб6.ReportManagementSystemException;
@@ -10,10 +12,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("rawtypes")
-public class TaskBLL {
+public class TaskDTO {
 
-    private int id;
-    Employee employee;
+    int id;
+    EmployeeDTO employee;
     String name;
     String comment;
     Date date;
@@ -21,17 +23,17 @@ public class TaskBLL {
 
     private ArrayList<Diff> changes;
 
-    public TaskBLL(TaskDAL taskDAL) {
+    public TaskDTO(TaskDAL taskDAL) {
         this.changes=taskDAL.getChanges();
         this.name = taskDAL.getName();
         this.comment = taskDAL.getComment();
         this.id = taskDAL.getId();
         this.date = taskDAL.getDate();
         this.status = taskDAL.getStatus();
-        this.employee=taskDAL.getEmployee();
+        this.employee= EmployeeManagement.transferBack(taskDAL.getEmployee());
     }
 
-    public TaskBLL(int id, String name, String comment, String status, Employee employee) {
+    public TaskDTO(int id, String name, String comment, String status, EmployeeDTO employee) {
         this.id = id;
         this.name = name;
         this.comment = comment;
@@ -83,7 +85,7 @@ public class TaskBLL {
         return changes;
     }
 
-    public Employee getEmployee() {
+    public EmployeeDTO getEmployee() {
         return employee;
     }
 }

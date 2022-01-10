@@ -61,4 +61,6 @@ public abstract class Algorithm {
 
     public abstract String getType();
 
+    public abstract void merge(List<RestorePoint> restorePointsForDelete, List<RestorePoint> restorePoints, Repository repository) throws BackupException;
+
 }

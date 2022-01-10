@@ -33,20 +33,6 @@ public class LocalRepository implements Repository{
     }
 
 
-    @Override
-    public void deleteRestorePoints(List<RestorePoint> restorePointList) {
-        for (RestorePoint restorePoint : restorePointList){
-            if (restorePoint.getAlgorithm().getType().equals("SingleStorageAlgorithm")){
-                File toDelete = new File(directoryPath +"\\"+ "backup_"+restorePoint.getName()+".zip");
-                toDelete.delete();
-            } else{
-                for(FileDesc jobObject : restorePoint.getJobObjects()){
-                    File toDelete = new File(directoryPath +"\\"+ jobObject.getName()+"_"+restorePoint.getName()+".zip");
-                    toDelete.delete();
-                }
-            }
-        }
-    }
 
     @Override
     public void delete(List<String> fileNames) {

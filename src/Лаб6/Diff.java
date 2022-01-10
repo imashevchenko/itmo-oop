@@ -1,6 +1,6 @@
 package Лаб6;
 
-import Лаб6.BLL.Employee;
+import Лаб6.DAL.EmployeeDAL;
 
 import java.util.Date;
 
@@ -11,9 +11,9 @@ public class Diff<T> {
     private T newValue;
     private Date date;
 
-    private Employee author;
+    private EmployeeDAL author;
 
-    public Diff(String fieldName, T oldValue, T newValue, Employee author) {
+    public Diff(String fieldName, T oldValue, T newValue, EmployeeDAL author) {
         this.fieldName = fieldName;
         this.oldValue = oldValue;
         this.newValue = newValue;
@@ -37,7 +37,7 @@ public class Diff<T> {
         return date;
     }
 
-    public Employee getAuthor() {
+    public EmployeeDAL getAuthor() {
         return author;
     }
 }

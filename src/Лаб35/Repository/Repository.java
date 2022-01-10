@@ -12,8 +12,6 @@ public interface Repository {
 
     void add(List<File> files) throws IOException;
 
-    void deleteRestorePoints(List<RestorePoint> restorePointList);
-
     void delete(List<String> fileNames);
 
     List<File> extractFiles(List<String> fileNames) throws BackupException;

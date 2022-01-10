@@ -86,4 +86,20 @@ public class SplitedStorageAlgorithm extends Algorithm {
         return "SplitedStorageAlgorithm";
     }
 
+    @Override
+    public void merge(List<RestorePoint> restorePointsForDelete, List<RestorePoint> restorePoints, Repository repository) throws BackupException {
+        List<String> filesToDelete = new ArrayList<>();
+        List<FileDesc> filesToSave = new ArrayList<>();
+        for (RestorePoint restorePoint : restorePointsForDelete) {
+            for (FileDesc jobObject : restorePoint.getJobObjects()) {
+                if (restorePoints.get(0).getJobObjects().contains(jobObject))
+                    filesToDelete.add(jobObject.getName() + "_" + restorePoint.getName() + ".zip");
+                else
+                    filesToSave.add(jobObject);
+            }
+        }
+        repository.delete(filesToDelete);
+        restorePoints.get(0).addJobObjects(filesToSave);
+    }
+
 }

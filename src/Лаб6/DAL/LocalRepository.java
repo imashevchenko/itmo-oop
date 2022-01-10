@@ -1,9 +1,7 @@
 package Лаб6.DAL;
 
 import com.google.gson.Gson;
-import Лаб6.BLL.DayReport;
-import Лаб6.BLL.Employee;
-import Лаб6.BLL.TaskBLL;
+import Лаб6.Common.EmployeeDTO;
 import Лаб6.Diff;
 import Лаб6.ReportManagementSystemException;
 
@@ -79,7 +77,7 @@ public class LocalRepository implements IRepository {
     }
 
     @Override
-    public TaskDAL updateTask(int id, String fieldName, Object newValue, Employee author) throws ReportManagementSystemException {
+    public TaskDAL updateTask(int id, String fieldName, Object newValue, EmployeeDAL author) throws ReportManagementSystemException {
         try (BufferedReader br = new BufferedReader(new FileReader(String.valueOf(path)))) {
             String line;
             List<String> newLines = new ArrayList<>();
@@ -108,13 +106,13 @@ public class LocalRepository implements IRepository {
     }
 
     @Override
-    public void createSprintReport(List<DayReport> dayReports) throws ReportManagementSystemException {
+    public void createSprintReport(List<DayReportDAL> dayReports) throws ReportManagementSystemException {
         try {
             PrintWriter out = new PrintWriter(new FileWriter(pathToSprintReport.toFile()));
-            for (DayReport dayReport : dayReports) {
+            for (DayReportDAL dayReport : dayReports) {
                 out.println("Report author : " + dayReport.getEmployee().getName());
                 out.println(dayReport.getDate().getTime());
-                for (TaskBLL task : dayReport.getTasks()) {
+                for (TaskDAL task : dayReport.getTasks()) {
                     out.printf("Task name : %s\nTask comment : %s\nTask status : %s\n Task id : %d",
                             task.getName(), task.getComment(), task.getStatus(), task.getId());
                     for (Diff diff : task.getChanges()) {
@@ -130,13 +128,13 @@ public class LocalRepository implements IRepository {
     }
 
     @Override
-    public void createDayReport(DayReport dayReport) throws ReportManagementSystemException {
+    public void createDayReport(DayReportDAL dayReport) throws ReportManagementSystemException {
 
         try {
             PrintWriter out = new PrintWriter(new FileWriter(pathToReports.toFile(), true));
             out.println("Report author : " + dayReport.getEmployee().getName());
             out.println(dayReport.getDate().getTime());
-            for (TaskBLL task : dayReport.getTasks()) {
+            for (TaskDAL task : dayReport.getTasks()) {
                 out.printf("Task name : %s\nTask comment : %s\nTask status : %s\n Task id : %d\n",
                         task.getName(), task.getComment(), task.getStatus(), task.getId());
                 for (Diff diff : task.getChanges()) {
@@ -152,7 +150,7 @@ public class LocalRepository implements IRepository {
     }
 
     @Override
-    public void createEmployee(Employee employee) throws ReportManagementSystemException {
+    public void createEmployee(EmployeeDAL employee) throws ReportManagementSystemException {
         try {
             PrintWriter out = new PrintWriter(new FileWriter(pathToEmployees.toFile(), true));
             Gson gson = new Gson();
@@ -164,18 +162,18 @@ public class LocalRepository implements IRepository {
     }
 
     @Override
-    public Employee updateEmployee(String name, String fieldName, Object newValue) throws
+    public EmployeeDAL updateEmployee(String name, String fieldName, Object newValue) throws
             ReportManagementSystemException {
         try (BufferedReader br = new BufferedReader(new FileReader(String.valueOf(pathToEmployees)))) {
             String line;
             List<String> newLines = new ArrayList<>();
-            Employee updated = null;
+            EmployeeDAL updated = null;
             try {
                 while ((line = br.readLine()) != null) {
                     Gson gson = new Gson();
-                    Employee employee = gson.fromJson(line, Employee.class);
+                    EmployeeDAL employee = gson.fromJson(line, EmployeeDAL.class);
                     if (employee.getName().equals(name)) {
-                        Employee.class.getDeclaredField(fieldName).set(employee, newValue);
+                        EmployeeDAL.class.getDeclaredField(fieldName).set(employee, newValue);
                         updated = employee;
                     }
                     newLines.add(gson.toJson(employee));
@@ -198,7 +196,7 @@ public class LocalRepository implements IRepository {
             List<String> newLines = new ArrayList<>();
             while ((line = br.readLine()) != null) {
                 Gson gson = new Gson();
-                Employee employee = gson.fromJson(line, Employee.class);
+                EmployeeDTO employee = gson.fromJson(line, EmployeeDTO.class);
                 if (employee.getName().equals(name))
                     continue;
                 newLines.add(gson.toJson(employee));
@@ -210,14 +208,14 @@ public class LocalRepository implements IRepository {
     }
 
     @Override
-    public List<Employee> getAllEmployees() throws ReportManagementSystemException {
+    public List<EmployeeDAL> getAllEmployees() throws ReportManagementSystemException {
         try {
             BufferedReader br = new BufferedReader(new FileReader(String.valueOf(pathToEmployees)));
             String line;
-            List<Employee> ans = new ArrayList<>();
+            List<EmployeeDAL> ans = new ArrayList<>();
             while ((line = br.readLine()) != null) {
                 Gson gson = new Gson();
-                ans.add(gson.fromJson(line, Employee.class));
+                ans.add(gson.fromJson(line, EmployeeDAL.class));
             }
             return ans;
         } catch (IOException e) {
@@ -225,7 +223,7 @@ public class LocalRepository implements IRepository {
         }
     }
 
-    public void saveReportConfig(DayReport dayReport) throws ReportManagementSystemException {
+    public void saveReportConfig(DayReportDAL dayReport) throws ReportManagementSystemException {
         try {
             PrintWriter out = new PrintWriter(new FileWriter(pathToConfigReports.toFile(), true));
             Gson gson = new Gson();
@@ -238,14 +236,14 @@ public class LocalRepository implements IRepository {
     }
 
     @Override
-    public List<DayReport> getAllReports() throws ReportManagementSystemException {
+    public List<DayReportDAL> getAllReports() throws ReportManagementSystemException {
         try {
             BufferedReader br = new BufferedReader(new FileReader(String.valueOf(pathToConfigReports)));
             String line;
-            List<DayReport> ans = new ArrayList<>();
+            List<DayReportDAL> ans = new ArrayList<>();
             while ((line = br.readLine()) != null) {
                 Gson gson = new Gson();
-                ans.add(gson.fromJson(line, DayReport.class));
+                ans.add(gson.fromJson(line, DayReportDAL.class));
             }
             return ans;
         } catch (IOException e) {

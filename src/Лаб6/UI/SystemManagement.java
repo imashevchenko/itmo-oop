@@ -1,11 +1,12 @@
 package Лаб6.UI;
 
 import Лаб6.BLL.*;
+import Лаб6.Common.TaskDTO;
 import Лаб6.DAL.IRepository;
-import Лаб6.DAL.TaskDAL;
+import Лаб6.Common.DayReportDTO;
+import Лаб6.Common.EmployeeDTO;
 import Лаб6.ReportManagementSystemException;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -18,9 +19,9 @@ public class SystemManagement {
     ReportManagement reportManagement;
 
     IRepository repository;
-    Employee currentUser;
+    EmployeeDTO currentUser;
 
-    public SystemManagement(IRepository repository, Employee teamLead) throws ReportManagementSystemException {
+    public SystemManagement(IRepository repository, EmployeeDTO teamLead) throws ReportManagementSystemException {
         this.repository = repository;
         taskManagement = new TaskManagement(repository);
         employeeManagement = new EmployeeManagement(repository);
@@ -38,17 +39,17 @@ public class SystemManagement {
     public void createReport() throws ReportManagementSystemException {
         reportManagement.createReport();
         currentUser.setLastReportTime(new Date());
-        employeeManagement.updateEmployee(currentUser.getName(), "lastReportTime", new Date());
+        employeeManagement.updateEmployee(currentUser.getName(), "LastReportTime", new Date());
     }
 
     public void getEmployeesWithReports(){
-        System.out.println(reportManagement.getDayReports().stream().map(DayReport::getEmployee).map(Employee::getName).collect(Collectors.toList()));
+        System.out.println(reportManagement.getDayReports().stream().map(DayReportDTO::getEmployee).map(EmployeeDTO::getName).collect(Collectors.toList()));
     }
 
     public void getEmployeesWithoutReport(){
-        List<Employee> employees = reportManagement.getDayReports().stream().map(DayReport::getEmployee).collect(Collectors.toList());
-        HashSet<Employee> employees1 = new HashSet<>(employees);
-        System.out.println(employeeManagement.getEmployees().stream().filter(employee -> !employees1.contains(employee)).map(Employee::getName).collect(Collectors.toList()));
+        List<EmployeeDTO> employees = reportManagement.getDayReports().stream().map(DayReportDTO::getEmployee).collect(Collectors.toList());
+        HashSet<EmployeeDTO> employees1 = new HashSet<>(employees);
+        System.out.println(employeeManagement.getEmployees().stream().filter(employee -> !employees1.contains(employee)).map(EmployeeDTO::getName).collect(Collectors.toList()));
     }
 
     public void createSprintReport() throws ReportManagementSystemException {
@@ -56,7 +57,7 @@ public class SystemManagement {
     }
 
     public void getAllEmployees(){
-        System.out.println(employeeManagement.getEmployees().stream().map(Employee::getName).collect(Collectors.toList()));
+        System.out.println(employeeManagement.getEmployees().stream().map(EmployeeDTO::getName).collect(Collectors.toList()));
     }
 
     public void updateEmployee(String name, String fieldName, Object newValue) throws ReportManagementSystemException {
@@ -68,7 +69,7 @@ public class SystemManagement {
     }
 
     public void getAllTasks(){
-        System.out.println(taskManagement.getTasks().stream().map(TaskBLL::getName).collect(Collectors.toList()));
+        System.out.println(taskManagement.getTasks().stream().map(TaskDTO::getName).collect(Collectors.toList()));
     }
 
     public void getTaskByEmployee(String name) throws ReportManagementSystemException {

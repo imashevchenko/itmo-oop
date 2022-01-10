@@ -4,6 +4,10 @@ import Лаб35.Algorithms.Algorithm;
 import Лаб35.Algorithms.SingleStorageAlgorithm;
 import Лаб35.Algorithms.SplitedStorageAlgorithm;
 import Лаб35.Exception.BackupException;
+import Лаб35.Filters.CombinedFilter;
+import Лаб35.Filters.DateFilter;
+import Лаб35.Filters.Filter;
+import Лаб35.Filters.NumberFilter;
 import Лаб35.Loggers.ConsoleLogger;
 import Лаб35.Loggers.FileLogger;
 import Лаб35.Loggers.Logger;
@@ -154,61 +158,23 @@ public class BackUpJob {
     }
 
     public List<RestorePoint> dateFilter(Date date) throws BackupException {
-        List<RestorePoint> restorePointList = restorePoints.stream()
-                .filter(restorePoint -> restorePoint.getDate().before(date))
-                .collect(Collectors.toList());
-        if (restorePointList.size() == restorePoints.size())
-            throw new BackupException("Impossible to delete all points");
-        return restorePointList;
+        Filter filter = new DateFilter(date);
+        return filter.filter(restorePoints);
     }
 
     public List<RestorePoint> numberFilter(int number) throws BackupException {
-        if (number >= restorePoints.size())
-            throw new BackupException("Incorrect number");
-        if (number == 0)
-            throw new BackupException("Impossible to delete all points");
-        return restorePoints.subList(0, restorePoints.size() - number);
+        Filter filter = new NumberFilter(number);
+        return filter.filter(restorePoints);
     }
 
     public List<RestorePoint> dateAndNumberFilter(int number, Date date, boolean bothConditions) throws BackupException {
-        if (number >= restorePoints.size())
-            throw new BackupException("Incorrect number");
-        List<RestorePoint> restorePointList;
-        if (bothConditions)
-            restorePointList = restorePoints.stream()
-                    .filter(restorePoint -> restorePoint.getDate().before(date) &&
-                            restorePoints.indexOf(restorePoint) < restorePoints.size() - number)
-                    .collect(Collectors.toList());
-        else
-            restorePointList = restorePoints.stream()
-                    .filter(restorePoint -> restorePoint.getDate().before(date) ||
-                            restorePoints.indexOf(restorePoint) < restorePoints.size() - number)
-                    .collect(Collectors.toList());
-        if (restorePointList.size() == restorePoints.size())
-            throw new BackupException("Impossible to delete all points");
-        return restorePointList;
+        Filter filter = new CombinedFilter(bothConditions, new NumberFilter(number), new DateFilter(date));
+        return filter.filter(restorePoints);
     }
 
     public void merge(List<RestorePoint> restorePointList) throws BackupException {
-        if (algorithm.getType().equals("SingleStorageAlgorithm")) {
-            repository.deleteRestorePoints(restorePointList);
-            restorePoints.removeAll(restorePointList);
-
-        } else {
-            restorePoints.removeAll(restorePointList);
-            List<String> filesToDelete = new ArrayList<>();
-            List<FileDesc> filesToSave = new ArrayList<>();
-            for (RestorePoint restorePoint : restorePointList) {
-                for (FileDesc jobObject : restorePoint.getJobObjects()) {
-                    if (restorePoints.get(0).getJobObjects().contains(jobObject))
-                        filesToDelete.add(jobObject.getName() + "_" + restorePoint.getName() + ".zip");
-                    else
-                        filesToSave.add(jobObject);
-                }
-            }
-            repository.delete(filesToDelete);
-            restorePoints.get(0).addJobObjects(filesToSave);
-        }
+        restorePoints.removeAll(restorePointList);
+        algorithm.merge(restorePointList, restorePoints, repository);
     }
 
     public void restoreToOriginalLocation(String restorePointName) throws BackupException {
